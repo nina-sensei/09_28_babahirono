@@ -7,14 +7,18 @@ $id = $_SESSION["id"];
 
 $pdo = connect_to_db();
 
-$sql =
-'SELECT * FROM users_table
-         LEFT OUTER JOIN instructions_form
-         ON users_table.id = instructions_form.dentist_id
-         ';
+$sql = "SELECT T1.id, T2.name, T2.kana, T2.sex, T2.birthday, T2.product, T2.laboratory
+         FROM users_table AS T1
+         JOIN instructions_form AS T2
+         ON T1.id = T2.dentist_id
+         -- WHERE T1.id = :id
+         ";
+//ログインした人だけの履歴を出したかったのですができませんでした
+
 
 // SQL準備&実行
 $stmt = $pdo->prepare($sql);
+$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 $status = $stmt->execute();
 
 // データ登録処理後
@@ -73,12 +77,20 @@ if ($status == false) {
 
    <div class="right-box">
       <div class="histoy">
-      
+
       </div>
-      <div>
+      <div class="history-box">
          <?= $output ?>
       </div>
    </div>
+
+   <style>
+      body {
+         display: flex;
+      }
+
+   </style>
+
 
 </body>
 
