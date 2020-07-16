@@ -11,9 +11,9 @@ $sql = "SELECT T1.id, T2.name, T2.kana, T2.sex, T2.birthday, T2.product, T2.labo
          FROM users_table AS T1
          JOIN instructions_form AS T2
          ON T1.id = T2.dentist_id
-         -- WHERE T1.id = :id
+         AND T1.id = :id
          ";
-//ログインした人だけの履歴を出したかったのですができませんでした
+
 
 
 // SQL準備&実行
