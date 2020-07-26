@@ -13,8 +13,7 @@ $sql = "SELECT T1.id, T2.name, T2.kana, T2.sex, T2.birthday, T2.product, T2.labo
          ON T1.id = T2.dentist_id
          AND T1.id = :id
          ";
-
-
+         
 
 // SQL準備&実行
 $stmt = $pdo->prepare($sql);

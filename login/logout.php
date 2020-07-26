@@ -13,5 +13,5 @@ if (isset($_COOKIE[session_name()])) {
 // サーバ側での、セッションIDの破棄
 session_destroy();
 // 処理後、index.phpへリダイレクト
-header('Location:index.php'); // ログインページヘ移動
+header('Location:./index.php'); // ログインページヘ移動
 exit();

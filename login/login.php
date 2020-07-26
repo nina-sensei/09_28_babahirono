@@ -24,7 +24,7 @@
          </div>
       </form>
       <div class="atag">
-         <a href="resister.php" class="resister">新規登録はこちら</a>
+         <a href="../resister/resister.php" class="resister">新規登録はこちら</a>
       </div>
    </div>
    <style>

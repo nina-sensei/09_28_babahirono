@@ -17,7 +17,7 @@
          <a href="">NEWS</a>
          <a href="">HELP</a>
          <a href="">CONTACT</a>
-         <a href="login.php">SIGN IN</a>
+         <a href="./login/login.php">SIGN IN</a>
       </nav>
    </header>
 
@@ -94,7 +94,7 @@
    </main>
 
    <footer>
-      <p>08kadai Hirono Baba</p>
+      <p>10kadai Hirono Baba</p>
    </footer>
 </body>
 

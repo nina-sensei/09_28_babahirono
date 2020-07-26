@@ -51,7 +51,7 @@ if ($stmt->fetchColumn() > 0) {
    // user_idが1件以上該当した場合はエラーを表示して元のページに戻る
    // $count = $stmt->fetchColumn();
    echo "<p>すでに登録されているユーザです．</p>";
-   echo '<a href="login.php">ログインはこちら</a>';
+   echo '<a href="../login/login.php">ログインはこちら</a>';
    exit();
 }
 
@@ -86,6 +86,6 @@ if ($status == false) {
    exit();
 } else {
    // 正常にSQLが実行された場合は入力ページファイルに移動し，入力ページの処理を実行する
-   header("Location:login.php");
+   header("Location:../login/login.php");
    exit();
 }

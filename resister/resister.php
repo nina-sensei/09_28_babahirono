@@ -44,7 +44,7 @@
          </div>
       </form>
       <div class="atag">
-         <a href="login.php" class="login">ログインはこちら</a>
+         <a href="../login/login.php" class="login">ログインはこちら</a>
       </div>
    </div>
 
