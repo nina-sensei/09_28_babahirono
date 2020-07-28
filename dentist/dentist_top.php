@@ -7,7 +7,7 @@ $id = $_SESSION["id"];
 
 $pdo = connect_to_db();
 
-$sql = "SELECT T1.id, T2.name, T2.kana, T2.sex, T2.birthday, T2.product, T2.laboratory
+$sql = "SELECT T1.id, T2.patient_name, T2.patient_kana, T2.patient_sex, T2.patient_birthday, T2.product, T2.laboratory
          FROM users_table AS T1
          JOIN instructions_form AS T2
          ON T1.id = T2.dentist_id
@@ -33,14 +33,14 @@ if ($status == false) {
    $output = "";
 
    foreach ($result as $record) {
-      $output .= "<p>{$record["name"]}</p>";
-      $output .= "<p>{$record["kana"]}</p>";
-      if ($record['sex'] == 0) {
+      $output .= "<p>{$record["patient_name"]}</p>";
+      $output .= "<p>{$record["patient_kana"]}</p>";
+      if ($record['patient_sex'] == 0) {
          $output .= "<p>男</p>";
       } else {
          $output .= "<p>女</p>";
       }
-      $output .= "<p>{$record["birthday"]}</p>";
+      $output .= "<p>{$record["patient_birthday"]}</p>";
       $output .= "<p>{$record["product"]}</p>";
       $output .= "<p>{$record["laboratory"]}</p>";
    }

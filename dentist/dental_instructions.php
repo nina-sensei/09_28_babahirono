@@ -47,7 +47,7 @@ $id = $_SESSION["id"];
          </div>
          <div class="form-item">
             <label for="">生年月日</label>
-            <input type="date" name="birthday">
+            <input type="date" name="patient_birthday">
          </div>
          <div class="radio-box">
             <p>③保険を選択してください</p>

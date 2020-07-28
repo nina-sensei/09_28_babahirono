@@ -9,52 +9,82 @@ check_session_id();
 // データ受け取り
 $dentist_id = $_POST["dentist_id"];
 $laboratory = $_POST["laboratory"];
-$product = $_POST["product"];
+$patient_name = $_POST["patient_name"];
+$patient_kana = $_POST["patient_kana"];
+$patient_sex = $_POST["patient_sex"];
+$patient_birthday = $_POST["patient_birthday"];
+$insurance = $_POST["insurance"];
 $delivery_date = $_POST["delivery_date"];
-$name = $_POST["name"];
-$kana = $_POST["kana"];
-$sex = $_POST["sex"];
-$birthday = $_POST["birthday"];
-
-
+$product = $_POST["product"];
 
 if (isset($_POST['material']) && is_array($_POST['material'])) {
-   $material = implode("、", $_POST["material"]);
+   $material = implode(",", $_POST["material"]);
 }
-// $material = $_POST["material"];
 
 // 値が存在しないor空で送信されてきた場合はNGにする
 if (
    !isset($laboratory) || $laboratory == "" ||
-   !isset($product) || $product == "" ||
+   !isset($patient_name) || $patient_name == "" ||
+   !isset($patient_kana) || $patient_kana == "" ||
+   !isset($patient_sex) || $patient_sex == "" ||
+   !isset($patient_birthday) || $patient_birthday == "" ||
+   !isset($insurance) || $insurance == "" ||
    !isset($delivery_date) || $delivery_date == "" ||
-   !isset($name) || $name == "" ||
-   !isset($kana) || $kana == "" ||
-   !isset($sex) || $sex == "" ||
-   !isset($birthday) || $birthday == "" ||
+   !isset($product) || $product == "" ||
    !isset($material) || $material == ""
 ) {
-   exit("ParamError");
+   echo json_encode(["error_msg" => "no input"]);
+   exit();
 }
 
-// DB接続関数
-$pdo = connect_to_db();
 
-$sql = 'INSERT INTO instructions_form(id, dentist_id, laboratory, product, delivery_date, name, kana, sex, birthday, material, created_at) 
-                              VALUES(NULL, :dentist_id, :laboratory, :product, :delivery_date, :name, :kana, :sex, :birthday, :material, sysdate())';
+// ここからファイルアップロード&DB登録の処理
+if (isset($_FILES['upfile']) && $_FILES['upfile']['error'] == 0) {
+   // アップロードしたファイル名を取得.
+   // 一時保管しているtmpフォルダの場所の取得.
+   // アップロード先のパスの設定(サンプルではuploadフォル全くダ同←じ作成!)
+   $uploadedFileName = $_FILES['upfile']['name']; //ファイル名の取得 
+   $tempPathName = $_FILES['upfile']['tmp_name']; //tmpフォルダの場所 
+   $fileDirectoryPath = '../upload/';
 
-// SQL準備&実行
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(':dentist_id', $dentist_id, PDO::PARAM_STR);
-$stmt->bindValue(':laboratory', $laboratory, PDO::PARAM_STR);
-$stmt->bindValue(':product', $product, PDO::PARAM_STR);
-$stmt->bindValue(':delivery_date', $delivery_date, PDO::PARAM_STR);
-$stmt->bindValue(':name', $name, PDO::PARAM_STR);
-$stmt->bindValue(':kana', $kana, PDO::PARAM_STR);
-$stmt->bindValue(':sex', $sex, PDO::PARAM_STR);
-$stmt->bindValue(':birthday', $birthday, PDO::PARAM_STR);
-$stmt->bindValue(':material', $material, PDO::PARAM_STR);
-$status = $stmt->execute();
+   // ファイルの拡張子の種類を取得.
+   // ファイルごとにユニークな名前を作成.(最後に拡張子を追加) // ファイルの保存場所をファイル名に追加. 全く同じ!
+   $extension = pathinfo($uploadedFileName, PATHINFO_EXTENSION);
+   $uniqueName = date('YmdHis') . md5(session_id()) . "." . $extension;
+   $fileNameToSave = $fileDirectoryPath . $uniqueName;
+} else {
+   // 送られていない，エラーが発生，などの場合
+   exit('Error:画像が送信されていません');
+}
+
+
+
+if (is_uploaded_file($tempPathName)) {
+   if (move_uploaded_file($tempPathName, $fileNameToSave)) {
+      chmod($fileNameToSave, 0644);
+      $pdo = connect_to_db();
+      $sql = 'INSERT INTO instructions_form(id, dentist_id, laboratory, patient_name, patient_kana, patient_sex, patient_birthday, insurance, delivery_date, product, material, image, created_at) 
+                              VALUES(NULL, :dentist_id, :laboratory, :patient_name, :patient_kana, :patient_sex, :patient_birthday, :insurance, :delivery_date, :product, :material, :image, sysdate())';
+
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue(':dentist_id', $dentist_id, PDO::PARAM_STR);
+      $stmt->bindValue(':laboratory', $laboratory, PDO::PARAM_STR);
+      $stmt->bindValue(':patient_name', $patient_name, PDO::PARAM_STR);
+      $stmt->bindValue(':patient_kana', $patient_kana, PDO::PARAM_STR);
+      $stmt->bindValue(':patient_sex', $patient_sex, PDO::PARAM_STR);
+      $stmt->bindValue(':patient_birthday', $patient_birthday, PDO::PARAM_STR);
+      $stmt->bindValue(':insurance', $insurance, PDO::PARAM_STR);
+      $stmt->bindValue(':delivery_date', $delivery_date, PDO::PARAM_STR);
+      $stmt->bindValue(':product', $product, PDO::PARAM_STR);
+      $stmt->bindValue(':material', $material, PDO::PARAM_STR);
+      $stmt->bindValue(':image', $fileNameToSave, PDO::PARAM_STR);
+      $status = $stmt->execute();
+   } else {
+      exit('Error:アップロードできませんでした'); // 画像の保存に失敗
+   }
+} else {
+   exit('Error:画像がありません'); //tmpフォルダにデータがない 
+}
 
 // データ登録処理後
 if ($status == false) {
@@ -65,6 +95,6 @@ if ($status == false) {
 } else {
    // 正常にSQLが実行された場合は入力ページファイルに移動し，入力ページの処理を実行する
    header("Location:dentist_top.php");
-   exit();ji
+   exit();
 }
 
