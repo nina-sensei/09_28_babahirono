@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("functions.php");
+include("../functions.php");
 check_session_id();
 
 //セッションを変数に置き換え

@@ -1,9 +1,10 @@
 <?php
 // var_dump($_POST);
 // exit();
-
+session_start();
 // 関数ファイル読み込み
-include('functions.php');
+include('../functions.php');
+check_session_id();
 
 // データ受け取り
 $dentist_id = $_POST["dentist_id"];
@@ -14,6 +15,9 @@ $name = $_POST["name"];
 $kana = $_POST["kana"];
 $sex = $_POST["sex"];
 $birthday = $_POST["birthday"];
+
+
+
 if (isset($_POST['material']) && is_array($_POST['material'])) {
    $material = implode("、", $_POST["material"]);
 }
@@ -61,6 +65,6 @@ if ($status == false) {
 } else {
    // 正常にSQLが実行された場合は入力ページファイルに移動し，入力ページの処理を実行する
    header("Location:dentist_top.php");
-   exit();
+   exit();ji
 }
 

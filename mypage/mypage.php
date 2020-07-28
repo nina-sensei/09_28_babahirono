@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("functions.php");
+include("../functions.php");
 check_session_id();
 
 $id = $_SESSION["id"];
@@ -59,12 +59,12 @@ if ($status == false) {
          <h1>My page</h1>
          <?php
          if ($_SESSION["is_dentist"] == 1) {
-            echo '<a href="dentist_top.php">歯科医師top</a>';
+            echo '<a href="../dentist/dentist_top.php">歯科医師top</a>';
          } else {
-            echo '<a href="technician_top.php">技工士top</a>';
+            echo '<a href="../technician/technician_top.php">技工士top</a>';
          }
          ?>
-         <a href="logout.php">Sign out</a>
+         <a href="../login/logout.php">Sign out</a>
          <div class="mypage">
             <div class="left-box">
                <div class="box-item">お名前</div>

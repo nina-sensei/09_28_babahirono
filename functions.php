@@ -25,7 +25,7 @@ function check_session_id()
       !isset($_SESSION['session_id']) ||
       $_SESSION['session_id'] != session_id()
    ) {
-      header("Location: input.php");
+      header("Location:index.php");
    } else {
       session_regenerate_id(true);
       $_SESSION["session_id"] = session_id();

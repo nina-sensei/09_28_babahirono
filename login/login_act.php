@@ -4,7 +4,7 @@
 session_start();
 
 //外部ファイル読み込み
-include("functions.php");
+include("../functions.php");
 
 //DB接続
 $pdo = connect_to_db();
@@ -59,9 +59,9 @@ if (!$val) {
    $_SESSION["is_deleted"] = $val["is_deleted"];   
 
    if($val["is_dentist"] == 1){
-      header("Location:dentist_top.php");
+      header("Location:../dentist/dentist_top.php");
    } else {
-      header("Location:technician_top.php");
+      header("Location:../tecnician/technician_top.php");
    }
    exit();
    

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("functions.php");
+include("../functions.php");
 check_session_id();
 
 $id = $_SESSION["id"];
@@ -68,8 +68,8 @@ if ($status == false) {
       <nav>
          <h1>歯科医師top</h1>
          <p>こんにちは！<?= $_SESSION["name"] ?>さん</p>
-         <a href="mypage.php">My page</a>
-         <a href="logout.php">Sign out</a>
+         <a href="../mypage/mypage.php">My page</a>
+         <a href="../login/logout.php">Sign out</a>
          <a href="dental_instructions.php">技工指示書</a>
       </nav>
    </div>

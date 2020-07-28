@@ -1,7 +1,7 @@
 <?php
 // セッション使うので必ず記述
 session_start();
-include("functions.php");
+include("../functions.php");
 check_session_id();
 // SESSIONを初期化（空にする）
 $_SESSION = array(); // セッション変数を空の配列で上書き 
@@ -13,5 +13,5 @@ if (isset($_COOKIE[session_name()])) {
 // サーバ側での、セッションIDの破棄
 session_destroy();
 // 処理後、index.phpへリダイレクト
-header('Location:./index.php'); // ログインページヘ移動
+header('Location:../index.php'); // ログインページヘ移動
 exit();
