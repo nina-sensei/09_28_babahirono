@@ -16,6 +16,10 @@ $patient_birthday = $_POST["patient_birthday"];
 $insurance = $_POST["insurance"];
 $delivery_date = $_POST["delivery_date"];
 $product = $_POST["product"];
+// $upload = $_POST['upload'];
+
+// var_dump($upload);
+// exit;
 
 if (isset($_POST['material']) && is_array($_POST['material'])) {
    $material = implode(",", $_POST["material"]);
@@ -63,8 +67,8 @@ if (is_uploaded_file($tempPathName)) {
    if (move_uploaded_file($tempPathName, $fileNameToSave)) {
       chmod($fileNameToSave, 0644);
       $pdo = connect_to_db();
-      $sql = 'INSERT INTO instructions_form(id, dentist_id, laboratory, patient_name, patient_kana, patient_sex, patient_birthday, insurance, delivery_date, product, material, image, created_at) 
-                              VALUES(NULL, :dentist_id, :laboratory, :patient_name, :patient_kana, :patient_sex, :patient_birthday, :insurance, :delivery_date, :product, :material, :image, sysdate())';
+      $sql = 'INSERT INTO instructions_form(id, dentist_id, laboratory, patient_name, patient_kana, patient_sex, patient_birthday, insurance, order_date, delivery_date, product, material, image, created_at) 
+                              VALUES(NULL, :dentist_id, :laboratory, :patient_name, :patient_kana, :patient_sex, :patient_birthday, :insurance, curdate(), :delivery_date, :product, :material, :image, sysdate())';
 
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue(':dentist_id', $dentist_id, PDO::PARAM_STR);

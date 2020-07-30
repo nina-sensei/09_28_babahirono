@@ -3,7 +3,7 @@
 // exit();
 
 // 関数ファイル読み込み
-include('functions.php');
+include('../functions.php');
 
 // データ受け取り
 $name = $_POST["name"];

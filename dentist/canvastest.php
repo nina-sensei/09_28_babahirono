@@ -1,10 +1,10 @@
 <?php
-session_start();
-include("../functions.php");
-check_session_id();
+// session_start();
+// include("../functions.php");
+// check_session_id();
 
-//セッションを変数に置き換え
-$id = $_SESSION["id"];
+// //セッションを変数に置き換え
+// $id = $_SESSION["id"];
 
 ?>
 
@@ -15,13 +15,13 @@ $id = $_SESSION["id"];
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>技工指示書</title>
+   <title>canvas</title>
 </head>
 
 <body>
-   <div class="resister-box">
-      <h1>技工指示書</h1>
-      <form action="dental_instructions_act.php" method="POST" enctype="multipart/form-data">
+   <!-- <div class="resister-box">
+      <h1>技工指示書</h1> -->
+   <!-- <form action="dental_instructions_act.php" method="POST" enctype="multipart/form-data">
          <div><input type="hidden" name="dentist_id" value="<?= $id ?>"></div>
          <div class="form-item">
             <p>①技工所を選択してください</p>
@@ -88,74 +88,81 @@ $id = $_SESSION["id"];
             <div class="ul_teeth">
 
             </div>
-            <div class="lr_teeth">
+            <div class="lr_teeth"> -->
 
-            </div>
+   <!-- </div>
             <div class="ll_teeth">
 
             </div>
          </div>
          <div class="picture">
             <input type="file" name="upfile" accept="image/*" capture="camera">
-         </div>
-         <div>
+         </div> -->
+   <!-- <div>
             <button id="submit">登録</button>
          </div>
       </form>
       <div class="design">
          <canvas id="canvas" width="480" height="430" style="border: solid 1px #000;"></canvas>
       </div>
-      <a href="dentist_top.php">もどる</a>
-
-      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-      <script>
-         let canvas = new fabric.Canvas('canvas');
-         // 画像
-         fabric.Image.fromURL('../img/dental-formula_black.png', function(oImg) {
-            oImg.scale(0.85);
-            canvas.add(oImg);
-         });
-
-         canvas.isDrawingMode = true; // お絵かきモードの有効化
-         canvas.freeDrawingBrush.color = "#000000"; // 描画する線の色
-         canvas.freeDrawingBrush.width = 2; // 描画する線の太さ
+      <a href="dentist_top.php">もどる</a> -->
+   <canvas id="canvas" width="360" height="240"></canvas>
 
 
-         // let base64 = this.canvas.toDataURL();
-         // console.log(base64);
+   <div>
+      <img id="newImg">
+   </div>
 
-         // const fd = new FormData();
-         // fd.append("upload", base64);
-         // const BASE_URL = "dental_instructions_act.php";
-
-         // //ajax送信
-         // $('#submit').on('click', function() {
-
-         //    axios.post(BASE_URL, fd)
-         //       .then(function(response) {
-         //          console.log("response", response);
-         //       })
-         //       .catch(function(error) {
-         //          console.log(error);
-         //       });
-         // });
-
-         //キャンバスは別フォルダでテスト
-      </script>
+   <form>
+      <input type="button" value="画像に変換" onclick="chgImg()">
+      <button type="button" id="submit">submit</button>
+   </form>
 
 
-      <style>
-         body {
-            font-size: 15px;
-            line-height: 2em;
-            width: 85%;
-            margin: 0 auto;
-            color: #4D648D;
-            background-color: #fcfdfd;
-         }
-      </style>
+
+   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+   <script>
+      let canvas = new fabric.Canvas('canvas');
+      // 画像
+      fabric.Image.fromURL('../img/dental-formula_black.png', function(oImg) {
+         oImg.scale(0.85);
+         canvas.add(oImg);
+      });
+
+      canvas.isDrawingMode = true; // お絵かきモードの有効化
+      canvas.freeDrawingBrush.color = "#000000"; // 描画する線の色
+      canvas.freeDrawingBrush.width = 2; // 描画する線の太さ
+
+
+      function chgImg() {
+         var png = canvas.toDataURL();
+         document.getElementById("newImg").src = png;
+         // return png;
+      }
+
+
+
+      // let base64 = this.canvas.toDataURL();
+      // console.log(base64);
+
+      const fd = new FormData(); 
+      fd.append("upload", fd);
+      const BASE_URL = "canvas_act.php";
+
+      // //ajax送信
+      $('#submit').on('click', function() {
+
+         axios.post(BASE_URL, fd)
+            .then(function(response) {
+               console.log("response", response);
+            })
+            .catch(function(error) {
+               console.log(error);
+            });
+      });
+   </script>
 </body>
 
 </html>
